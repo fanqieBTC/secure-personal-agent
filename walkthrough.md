@@ -24,23 +24,33 @@ I have implemented a **Proof of Concept (PoC)** for a secure, sandboxed personal
 
 > [!IMPORTANT]
 > **Prerequisite**: You must have **Docker Desktop** installed and **running**.
-> The verification during development failed because Docker was not active.
 
-1.  **Start Docker**: Open Docker Desktop on your Mac.
-2.  **Install Dependencies**:
+1.  **Install Dependencies**:
     ```bash
     python3 -m pip install -r requirements.txt
     ```
-3.  **Run the Verification**:
+2.  **Run the Verification**:
     ```bash
     python3 verify_sandbox.py
     ```
 
-### What to Expect
-When you run `verify_sandbox.py`, it will:
-1.  **Build** the secure Docker image (idempotent).
-2.  **Run** a safe "Hello World" command inside the container.
-3.  **Prove Isolation** by attempting to list the root directory `/`. You will see the *container's* file system (linux structure) instead of your Mac's file system, proving that the agent cannot snoop on your files.
+### ✅ Verification Results (Success)
+We successfully verified the system on your machine:
+- **Build**: The Docker image `secure-agent-sandbox` was built successfully.
+- **Execution**: The agent ran Python code inside the container.
+- **Isolation Confirmed**: When asked to `read file`, the agent listed the *container's* file system (Linux) instead of your Mac's file system.
+
+```text
+=== Step 3: Testing Sandbox Isolation ===
+Agent received: read file
+...
+Result:
+['dev', 'mnt', 'var', 'sys', 'tmp', ... 'workspace']
+```
+*Note: The absence of 'Users' or 'Applications' directories confirms the agent cannot see your files.*
+
+## 📦 GitHub Repository
+The project is now hosted at: [secure-personal-agent](https://github.com/linxiping2/secure-personal-agent)
 
 ## 🔮 Next Steps
 To turn this into a full "Clawdbot replacement":
