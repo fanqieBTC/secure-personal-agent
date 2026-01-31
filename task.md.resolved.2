@@ -1,0 +1,14 @@
+# Tasks: Secure Personal AI Assistant
+
+- [x] Design System Architecture <!-- id: 0 -->
+    - [x] Define Security Model (Sandboxing & Permissions) <!-- id: 1 -->
+    - [x] Design Core Components (Agent, Tool Manager, User Interface) <!-- id: 2 -->
+    - [x] Create Implementation Plan <!-- id: 3 -->
+- [x] Implement Proof of Concept (PoC) <!-- id: 4 -->
+    - [x] Setup Project Structure <!-- id: 5 -->
+    - [x] Implement Core Agent Loop <!-- id: 6 -->
+    - [x] Implement Sandboxed Tool Execution <!-- id: 7 -->
+    - [x] Create Basic CLI/Web Interface <!-- id: 8 -->
+- [/] Verification <!-- id: 9 -->
+    - [/] Test Tool Sandboxing <!-- id: 10 -->
+    - [ ] Verify Permission Prompts <!-- id: 11 -->

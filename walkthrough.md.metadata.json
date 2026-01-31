@@ -1,0 +1,5 @@
+{
+  "artifactType": "ARTIFACT_TYPE_WALKTHROUGH",
+  "summary": "Walkthrough of the Secure Personal Agent PoC. Explains the architecture, how to run it, and the security features. Notes that Docker is required.",
+  "updatedAt": "2026-01-31T15:29:58.420415Z"
+}

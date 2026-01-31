@@ -1,0 +1,5 @@
+{
+  "artifactType": "ARTIFACT_TYPE_IMPLEMENTATION_PLAN",
+  "summary": "Design document for a secure, sandboxed personal AI agent. Focuses on preventing common AI safety risks through architecture.",
+  "updatedAt": "2026-01-31T15:18:21.388221Z"
+}
