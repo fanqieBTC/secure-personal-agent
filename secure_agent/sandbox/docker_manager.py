@@ -14,16 +14,8 @@ class DockerSandbox:
     def build_image(self, dockerfile_path: str):
         """Builds the sandbox image from the Dockerfile."""
         print(f"Building image {self.image_name}...")
-        try:
-            # We assume dockerfile_path is the directory containing Dockerfile
-            self.client.images.build(path=dockerfile_path, tag=self.image_name, rm=True)
-            print("Build complete.")
-        except docker.errors.BuildError as e:
-            print(f"Error building image: {e}")
-            for line in e.build_log:
-                if 'stream' in line:
-                    print(line['stream'].strip())
-            raise
+        self.client.images.build(path=dockerfile_path, tag=self.image_name, rm=True)
+        print("Build complete.")
 
     def run_python_code(self, code: str, timeout: int = 30) -> Tuple[str, str]:
         """
@@ -48,27 +40,29 @@ class DockerSandbox:
                     command=f"python3 {script_name}",
                     volumes=volumes,
                     working_dir="/workspace",
-                    network_mode="none", # No internet access by default
-                    mem_limit="512m",   # Limit memory
+                    network_mode="none",
+                    mem_limit="512m",
                     detach=True,
-                    user="1000:1000"    # Ensure non-root
+                    user="1000:1000"
                 )
 
-                try:
-                    result = container.wait(timeout=timeout)
-                    stdout = container.logs(stdout=True, stderr=False).decode('utf-8')
-                    stderr = container.logs(stdout=False, stderr=True).decode('utf-8')
-                    return stdout, stderr
-                except Exception as e:
-                    container.kill()
-                    return "", f"Execution timed out or failed: {str(e)}"
-                finally:
-                    container.remove()
+                result = container.wait(timeout=timeout)
+                stdout = container.logs(stdout=True, stderr=False).decode('utf-8')
+                stderr = container.logs(stdout=False, stderr=True).decode('utf-8')
+                return stdout, stderr
 
             except docker.errors.ContainerError as e:
                 return "", str(e)
             except Exception as e:
-                return "", f"System error: {str(e)}"
+                if 'container' in locals():
+                    container.kill()
+                return "", str(e)
+            finally:
+                if 'container' in locals():
+                    try:
+                        container.remove()
+                    except:
+                        pass
 
 # Example usage (for testing)
 if __name__ == "__main__":

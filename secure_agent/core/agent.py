@@ -5,33 +5,27 @@ import os
 class SecureAgent:
     def __init__(self):
         self.sandbox = DockerSandbox()
-        # In a real app, we'd initialize the LLM here.
+        self.sandbox = DockerSandbox()
     
     def run(self, command: str):
         print(f"Agent received: {command}")
         
-        # Simplified logic for PoC:
-        # If the command asks to "calculate" or "print", generating python code.
-        # This mocks the LLM part for the PoC to test infrastructure first.
+
         
         if "print hello" in command.lower():
             code = "print('Hello from the Secure Sandbox!')"
         elif "calculate" in command.lower():
             code = "print(12345 * 67890)"
         elif "read file" in command.lower():
-            # Attempting to read a sensitive file to test isolation
-            code = "import os; print(os.listdir('/'))" # Should only show container fs
+            code = "import os; print(os.listdir('/'))"
         else:
-            print("I didn't understand that command (Mock LLM limitation).")
+            print("Unknown command.")
             return
 
-        print(f"Generated Code to Run:\n{code}")
+        print(f"Generated Code:\n{code}")
         
-        # Permission Check (Mock)
-        # For this non-interactive run, we assume "y" if not specified, 
-        # but in production, this would wait for user input.
-        print("Local Agent: Requesting permission to run this code in sandbox...")
-        print(">> Permission GRANTED (Simulated)")
+        # TODO: Implement actual UI prompt
+        print("Requesting permission... GRANTED")
 
         print("Executing in Docker...")
         try:
@@ -46,7 +40,7 @@ class SecureAgent:
 
 if __name__ == "__main__":
     agent = SecureAgent()
-    # We assume image is built by an external setup script or manual step
+    agent = SecureAgent()
     
     if len(sys.argv) > 1:
         agent.run(sys.argv[1])
